@@ -1,11 +1,16 @@
-#include "printf/printf.h"
+#include <stdbool.h>
 
-void write_string(int colour, const char *string) {
-    volatile char *video = (volatile char *)0xB8000;
-    while (*string != 0) {
-        *video++ = *string++;
-        *video++ = colour;
-    }
+#include "idt/idt.h"
+#include "printf/printf.h"
+#include "stdint.h"
+
+static inline uint8_t ainb(uint16_t port) {
+    uint8_t ret;
+    __asm__ volatile("inb %w1, %b0" : "=a"(ret) : "Nd"(port) : "memory");
+    return ret;
 }
 
-void kmain() { printf("hello world"); }
+void kmain() {
+    IDTInit();
+    printf("idt is working!");
+}

@@ -122,24 +122,17 @@ Start:
 	call SetupPageTables
 	call EnablePaging
 
+	cli
 	lgdt [gdt64.pointer]
-	jmp gdt64.code_segment:LongStart
-	hlt
-	
-section .rodata	; TODO: this needs to be replaced later
-gdt64:
-	dq 0 ; zero entry
-.code_segment: equ $ - gdt64
-	dq (1 << 43) | (1 << 44) | (1 << 47) | (1 << 53) ; code segment
-.pointer:
-	dw $ - gdt64 - 1 ; length
-	dq gdt64 ; address
+	jmp gdt64.code:LongStart
 
+	hlt
 
 bits 64
 extern kmain
 LongStart:
-    mov ax, 0
+	cli
+    mov ax, gdt64.data
     mov ss, ax
     mov ds, ax
     mov es, ax
@@ -148,3 +141,16 @@ LongStart:
 	call kmain
 
 	hlt
+
+
+section .rodata
+gdt64:
+    dq 0
+.code: equ $ - gdt64
+    dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
+.data: equ $ - gdt64
+    dq (1<<44) | (1<<47) | (1<<41)
+
+.pointer:
+    dw .pointer - gdt64 - 1
+    dq gdt64

@@ -1,7 +1,9 @@
+#include <stdbool.h>
+#include <stdint.h>
 #ifndef IDT_H
 #define IDT_H
-#include "stdint.h"
-
+#define MAX_IDT_ENTRIES 256
+#define GDT_OFFSET_KERNEL_CODE 0x08
 typedef struct {
     uint16_t isr_low;    // The lower 16 bits of the ISR's address
     uint16_t kernel_cs;  // The GDT segment selector that the CPU will load into CS before calling the ISR
@@ -10,20 +12,17 @@ typedef struct {
     uint16_t isr_mid;    // The higher 16 bits of the lower 32 bits of the ISR's address
     uint32_t isr_high;   // The higher 32 bits of the ISR's address
     uint32_t reserved;   // Set to zero
-} __attribute__((packed)) idt_entry;
+} __attribute__((packed)) IDTEntry;
 
-__attribute__((aligned(0x10))) static idt_entry idt[256];
+__attribute__((
+    aligned(0x10))) static IDTEntry idt[MAX_IDT_ENTRIES];  // Create an array of IDT entries; aligned for performance
 
 typedef struct {
     uint16_t limit;
     uint64_t base;
-} __attribute__((packed)) idtr;
+} __attribute__((packed)) IDTPointer;
 
-static idtr idtr_s;
-
+void IDTSetDescriptor(uint8_t vector, void* isr, uint8_t flags);
+void IDTInit(void);
 __attribute__((noreturn)) void exception_handler(void);
-
-void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
-void idt_init(void);
-
 #endif
