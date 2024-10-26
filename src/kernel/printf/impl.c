@@ -34,8 +34,6 @@ const uint8_t whiteonblack = 15 | 0 << 4;
 
 volatile struct Char* buffer = (struct Char*)0xb8000;
 
-// ESCC[0;15; // non stanard ansi like color codes
-
 void clear_screen() {
     for (int i = 0; i < NUM_COLS; i++) {
         for (int j = 0; j < NUM_ROWS; j++) {

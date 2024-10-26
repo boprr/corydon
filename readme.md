@@ -4,7 +4,6 @@
 > [!WARNING]
 > This is a work-in-progress project. If you encounter any problems, please open an issue.
 
-> “I’m making an operating system myself, so I know what it’s like to be God.” - Terry A. Davis
 
 ## how to make?
 
@@ -16,3 +15,5 @@ make
 # for testing with limine and qemu
 make limine
 ```
+
+> “I’m making an operating system myself, so I know what it’s like to be God.” - Terry A. Davis

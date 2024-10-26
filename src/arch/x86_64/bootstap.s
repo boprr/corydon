@@ -122,7 +122,6 @@ Start:
 	call SetupPageTables
 	call EnablePaging
 
-	cli
 	lgdt [gdt64.pointer]
 	jmp gdt64.code:LongStart
 
@@ -131,7 +130,6 @@ Start:
 bits 64
 extern kmain
 LongStart:
-	cli
     mov ax, gdt64.data
     mov ss, ax
     mov ds, ax
@@ -139,7 +137,6 @@ LongStart:
     mov fs, ax
     mov gs, ax
 	call kmain
-
 	hlt
 
 

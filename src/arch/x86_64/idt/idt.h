@@ -24,5 +24,6 @@ typedef struct {
 
 void IDTSetDescriptor(uint8_t vector, void* isr, uint8_t flags);
 void IDTInit(void);
+void keybrd();
 __attribute__((noreturn)) void exception_handler(void);
 #endif

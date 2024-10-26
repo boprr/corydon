@@ -1,10 +1,23 @@
 #include "idt.h"
 
-void exception_handler() {
-    __asm__ volatile("cli; hlt");  // Completely hangs the computer
+#include <stdint.h>
+
+#include "printf/printf.h"
+
+static inline uint8_t inb(uint16_t port) {
+    uint8_t ret;
+    __asm__ volatile("inb %w1, %b0" : "=a"(ret) : "Nd"(port) : "memory");
+    return ret;
+}
+static inline void outportb(uint16_t port, uint8_t val) {
+    __asm__ volatile("outb %b0, %w1" : : "a"(val), "Nd"(port) : "memory");
 }
 
-static bool vectors[MAX_IDT_ENTRIES];
+void exception_handler() {
+    //__asm__ volatile("cli; hlt");  // Completely hangs the computer
+}
+extern void* isr_stub_table[];
+
 static IDTPointer idtr;
 
 void IDTSetDescriptor(uint8_t vector, void* isr, uint8_t flags) {
@@ -19,22 +32,20 @@ void IDTSetDescriptor(uint8_t vector, void* isr, uint8_t flags) {
     descriptor->reserved = 0;
 }
 
-void idt_set_entry(int index, uint64_t offset, uint16_t selector, uint8_t type_attr) {
-    idt[index].isr_low = offset & 0xFFFF;
-    idt[index].kernel_cs = selector;
-    idt[index].ist = 0;
-    idt[index].attributes = type_attr;
-    idt[index].isr_mid = (offset >> 16) & 0xFFFF;
-    idt[index].isr_high = (offset >> 32) & 0xFFFFFFFF;
-    idt[index].reserved = 0;
-}
+extern void kbrd_intr();
+extern void NULLDISC();
 
 void IDTInit() {
     idtr.base = (uintptr_t)&idt[0];
     idtr.limit = (uint16_t)sizeof(IDTEntry) * MAX_IDT_ENTRIES - 1;
 
-    idt_set_entry(32, (uint64_t)exception_handler, 0x08, 0x8E);
+    for (int i = 0; i < 31; i++) {
+        IDTSetDescriptor(i, (uint64_t)isr_stub_table[i], 0x8E);
+    }
+    // IDTSetDescriptor(33, (uint64_t)keybrd, 0x8E);
+    // IDTSetDescriptor(33, (uint64_t)kbrd_intr, 0x8E);
+    // KILL MEEE
 
-    __asm__ volatile("lidt %0" : : "m"(idtr));  // load the new IDT
-    //__asm__ volatile("sti");                    // set the interrupt flag
+    asm volatile("lidt %0" ::"m"(idtr) : "memory");
+    asm volatile("sti");
 }
