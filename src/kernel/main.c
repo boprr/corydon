@@ -1,4 +1,3 @@
-void kmain() {
-    // do nothing
-    // lol
-}
+#include "printf.h"
+
+void kmain() { printf("Hello!"); }

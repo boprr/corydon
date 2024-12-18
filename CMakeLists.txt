@@ -22,3 +22,24 @@ set_source_files_properties(${SOURCE_ASM} PROPERTIES LANGUAGE ASM_NASM)
 
 include_directories(src/include)
 add_executable(corydon ${SOURCE_C} ${SOURCE_ASM})
+
+add_custom_target(gdb
+    COMMAND sh boot_limine.sh
+    COMMAND sh debug_qemu_gdb.sh ${CMAKE_BINARY_DIR}/corydon
+    DEPENDS corydon
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/tools"
+)
+
+add_custom_target(qemu
+    COMMAND sh boot_limine.sh
+    COMMAND sh debug_qemu.sh
+    DEPENDS corydon
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/tools"
+)
+
+add_custom_target(iso
+    COMMAND sh boot_limine.sh
+    COMMAND cp make_iso/corydon.iso ${CMAKE_BINARY_DIR}/
+    DEPENDS corydon
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/tools"
+)

@@ -14,9 +14,6 @@ header_end:
 KERNEL_OFFSET equ 0xffffffff80000000
 
 section .bss
-stack_bottom:
-    resb 4*4096
-stack_top:
 
 align 4096
 page:
@@ -26,9 +23,10 @@ page:
         resb 4096
     .p2:
         resb 4096
-    .bottom:
-        resb 4096 * 4
-page_top:
+
+stack_bottom:
+	resb 4096 * 4
+stack_top:
 
 section .rodata
 gdt64:
@@ -99,10 +97,7 @@ longmode_entry:
     mov fs, ax
     mov gs, ax
 
-    mov rax, KERNEL_OFFSET
-    add rsp, rax
-
-    invlpg [page.p4]
-
-    call kmain
+    add rsp, KERNEL_OFFSET
+    
+    nop
     hlt
