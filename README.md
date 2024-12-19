@@ -4,8 +4,9 @@ A simple x86_64 kernel
 ### How to build?
 ##### you will need:
 + cmake
-+ gcc
-+ nasm
++ wget
++ tar
++ [gcc build depends](https://gcc.gnu.org/install/prerequisites.html)
 + git
 + xorriso
 + qemu (optional)
