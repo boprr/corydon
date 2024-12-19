@@ -40,12 +40,15 @@ gdt64:
 section .text
 global start
 start:
-    cli
     mov esp, (stack_top - KERNEL_OFFSET)
+
     call setup_page_tables
     call enable_paging
+    
     lgdt [(gdt64.pointer - KERNEL_OFFSET)]
     jmp gdt64.code:(longmode_entry - KERNEL_OFFSET)
+
+    cli
     hlt
 
 setup_page_tables:
@@ -85,6 +88,7 @@ enable_paging:
     mov eax, cr0
 	or eax, 1 << 31
 	mov cr0, eax
+
     ret
 
 [BITS 64]
@@ -98,6 +102,13 @@ longmode_entry:
     mov gs, ax
 
     add rsp, KERNEL_OFFSET
-    
+
+    ;mov eax, (page.p4 - KERNEL_OFFSET)
+    ;mov [0x0], eax
+    ;invlpg [0]
+
+    ;call kmain - this doesn't work
+
+    cli
     nop
     hlt

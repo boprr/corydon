@@ -12,15 +12,11 @@ A simple x86_64 kernel
 + qemu (optional)
 
 ```bash
-# clone the project
 git clone https://github.com/boprr/corydon
 cd corydon
 mkdir build
 cd build
 cmake ..
-
-# build
-make
-# to create a bootable iso
+make toolchain
 make iso
 ```
