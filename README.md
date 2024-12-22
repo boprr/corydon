@@ -9,7 +9,6 @@ A simple x86_64 kernel
 + [gcc build depends](https://gcc.gnu.org/install/prerequisites.html)
 + git
 + xorriso
-+ qemu (optional)
 
 ```bash
 git clone https://github.com/boprr/corydon

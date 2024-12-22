@@ -103,11 +103,7 @@ longmode_entry:
 
     add rsp, KERNEL_OFFSET
 
-    ;mov eax, (page.p4 - KERNEL_OFFSET)
-    ;mov [0x0], eax
-    ;invlpg [0]
-
-    ;call kmain - this doesn't work
+    call kmain ; bootloop
 
     cli
     nop
