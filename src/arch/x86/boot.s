@@ -54,12 +54,14 @@ start:
 setup_page_tables:
     mov eax, (page.p3 - KERNEL_OFFSET)
     or eax, 0b11 ; present + writable
-    mov [(page.p4 - KERNEL_OFFSET)], eax 
+    mov [((page.p4 - KERNEL_OFFSET)+0 * 8)], eax 
+    mov [((page.p4 - KERNEL_OFFSET)+511 * 8)], eax 
 
     mov eax, (page.p2 - KERNEL_OFFSET)
     or eax, 0b11 ; present + writable
-    mov [(page.p3 - KERNEL_OFFSET)], eax
-
+    mov [((page.p3 - KERNEL_OFFSET)+0 * 8)], eax 
+    mov [((page.p3 - KERNEL_OFFSET)+510 * 8)], eax 
+    
     mov ecx, 0 ; loop counter
         .loop:
             mov eax, 0x200000 ; 2MiB
