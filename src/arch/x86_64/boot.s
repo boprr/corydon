@@ -6,9 +6,10 @@ header_start:
     dd 0
     dd header_end - header_start
     dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
+
     dw 0
     dw 0
-    dd 8
+    dd 0
 header_end:
 
 KERNEL_OFFSET equ 0xffffffff80000000
@@ -40,6 +41,7 @@ gdt64:
 section .text
 global start
 start:
+    cli
     mov esp, (stack_top - KERNEL_OFFSET)
 
     call setup_page_tables
@@ -105,8 +107,8 @@ longmode_entry:
 
     add rsp, KERNEL_OFFSET
 
-    call kmain ; bootloop
-
+    call kmain
+    
     cli
     nop
     hlt
