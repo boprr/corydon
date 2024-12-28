@@ -8,5 +8,5 @@ void kmain() {
     serial_init();
     idt_init();
 
-    printf("Welcome to Corydon 0.01 \n");
+    printf("Welcome to Corydon 0.01 test \n");
 }
