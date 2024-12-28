@@ -31,7 +31,7 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
         cd tools
-        sh build_toolchain.sh toolchain/
+        sh build_toolchain.sh toolchain
         cd ..
 
     - name: Configure CMake
