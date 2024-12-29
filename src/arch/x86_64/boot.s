@@ -108,7 +108,8 @@ longmode_entry:
     add rsp, KERNEL_OFFSET
 
     call kmain
-    
-    cli
-    nop
     hlt
+    
+.loop
+    hlt
+    jmp $
