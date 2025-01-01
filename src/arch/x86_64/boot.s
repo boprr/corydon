@@ -110,6 +110,6 @@ longmode_entry:
     call kmain
     hlt
     
-.loop
+.loop:
     hlt
     jmp $
