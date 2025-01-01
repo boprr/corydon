@@ -46,36 +46,6 @@ typedef struct {
     uint64_t ss;
 } __attribute__((packed)) cpu_status;
 
-static const char* exceptions[] = {
-    "Division Error",
-    "Debug",
-    "Non-maskable Interrupt",
-    "Breakpoint",
-    "Overflow",
-    "Bound Range Exceeded",
-    "Invalid Opcode",
-    "Device Not Available",
-    "Double Fault",
-    "Coprocessor Segment Overrun",
-    "Invalid TSS",
-    "Segment Not Present",
-    "Stack-Segment Fault",
-    "General Protection Fault",
-    "Page Fault",
-    "Reserved",
-    "x87 Floating-Point Exception",
-    "Alignment Check",
-    "Machine Check",
-    "SIMD Floating-Point Exception",
-    "Virtualization Exception",
-    "Control Protection Exception",
-    "Reserved",
-    "Hypervisor Injection Exception",
-    "VMM Communication Exception",
-    "Security Exception",
-    "Reserved",
-};
-
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 void idt_init(void);
 extern void isr_exit();
