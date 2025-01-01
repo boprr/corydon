@@ -13,6 +13,7 @@ isr_stub_%+%1:
 
 extern handle_interrupt
 isr_common:
+    ;cli
     push rax
     push rbx
     push rcx
@@ -31,19 +32,10 @@ isr_common:
 
     mov rbp, ds
     push rbp
-
-    mov ax, 0
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-
+    
     mov rdi, rsp 
     call handle_interrupt
-    call isr_exit
-    
-global isr_exit
-isr_exit:
+
     pop rbp
     mov es, rbp
 
@@ -64,7 +56,9 @@ isr_exit:
     pop r15
 
     add rsp, 16
+    ;sti
     iretq
+    
 
 isr_no_err_stub 0
 isr_no_err_stub 1

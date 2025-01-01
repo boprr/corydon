@@ -1,10 +1,40 @@
 #include "idt.h"
 
-#include <stdint.h>
-
+#include "dri/pic.h"
+#include "gdt.h"
 #include "print/debugf.h"
 #include "print/printf.h"
 #include "utils.h"
+
+static const char* exceptions[] = {
+    "Division Error",
+    "Debug",
+    "Non-maskable Interrupt",
+    "Breakpoint",
+    "Overflow",
+    "Bound Range Exceeded",
+    "Invalid Opcode",
+    "Device Not Available",
+    "Double Fault",
+    "Coprocessor Segment Overrun",
+    "Invalid TSS",
+    "Segment Not Present",
+    "Stack-Segment Fault",
+    "General Protection Fault",
+    "Page Fault",
+    "Reserved",
+    "x87 Floating-Point Exception",
+    "Alignment Check",
+    "Machine Check",
+    "SIMD Floating-Point Exception",
+    "Virtualization Exception",
+    "Control Protection Exception",
+    "Reserved",
+    "Hypervisor Injection Exception",
+    "VMM Communication Exception",
+    "Security Exception",
+    "Reserved",
+};
 
 static idtr idtp;
 extern void* isr_stub_table[];
@@ -15,7 +45,7 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
     idt_entry* descriptor = &idt[vector];
 
     descriptor->isr_low = (uint64_t)isr & 0xFFFF;
-    descriptor->kernel_cs = 0x08;
+    descriptor->kernel_cs = GDT_KERNEL_CODE;
     descriptor->ist = 0;
     descriptor->attributes = flags;
     descriptor->isr_mid = ((uint64_t)isr >> 16) & 0xFFFF;
@@ -23,21 +53,7 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
     descriptor->reserved = 0;
 }
 
-void remap_pic() {
-    outb(0x20, 0x11);
-    outb(0xA0, 0x11);
-    outb(0x21, 0x20);
-    outb(0xA1, 0x28);
-    outb(0x21, 0x04);
-    outb(0xA1, 0x02);
-    outb(0x21, 0x01);
-    outb(0xA1, 0x01);
-    outb(0x21, 0x00);
-    outb(0xA1, 0x00);
-}
-
 void idt_init() {
-    remap_pic();
     idtp.base = (uintptr_t)&idt[0];
     idtp.limit = (uint16_t)sizeof(idt_entry) * 256 - 1;
 
@@ -53,17 +69,26 @@ void idt_init() {
     __asm__ volatile("sti");                    // set the interrupt flag
 }
 
+uint8_t scancode_table[128] = {
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', ' ', ' ', 'w', 'e', 'r', ' ', ' ', ' ', ' ', 'o', ' ',
+    ' ', ' ', ' ', ' ', ' ', ' ', 'd', ' ', ' ', 'h', ' ', ' ', 'l',
+};
+
+void kbd_irq() {
+    int scancode = inb(0x60);
+    printf("%i", scancode);
+}
+
 void handle_interrupt(uint64_t stack_pointer) {
     cpu_status* status = (cpu_status*)stack_pointer;
     if (status->vector <= 31) {
         if (status->vector <= 26)
             printf("[ISR] %s \n", exceptions[status->vector]);
-        panic(status);
+        panic();
     }
-    if (status->vector >= 40) {
-        outb(0xA0, 0x20);
-    }
-    if (status->vector >= 32 && status->vector <= 47) {
-        outb(0x20, 0x20);
+    if (status->vector == 33) kbd_irq();
+    if (status->vector > 31) {
+        pic_eoi(status->vector - 32);
     }
 }
