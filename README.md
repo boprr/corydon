@@ -33,6 +33,16 @@ emerge -a gcc make bison flex gmp mpc mpfr texinfo isl cmake wget tar git libbur
 pacman -S base-devel gmp libmpc mpfr wget tar git libburn
 ```
 
+```bash
+git clone https://github.com/boprr/corydon
+cd corydon
+mkdir build
+cd build
+cmake ..
+make toolchain
+make iso
+```
+
 ## Contributing 
 1. Fork the repository.
 2. Create a new branch: `git checkout -b feature-name`.
