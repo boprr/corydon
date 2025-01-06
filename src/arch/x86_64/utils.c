@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#include "idt.h"
+#include "cpu/idt.h"
 #include "print/debugf.h"
 #include "print/printf.h"
 

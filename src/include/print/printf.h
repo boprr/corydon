@@ -36,6 +36,8 @@
 #include <stdarg.h>
 #include <stddef.h>
 
+#include "utils.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -59,6 +61,10 @@ void _putchar(char character);
  */
 #define printf printf_
 int printf_(const char* format, ...);
+
+void clear_screen();
+void move_back();
+void update_cursor();
 
 /**
  * Tiny sprintf implementation
