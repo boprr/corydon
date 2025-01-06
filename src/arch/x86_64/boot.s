@@ -42,6 +42,8 @@ section .text
 global start
 start:
     cli
+    mov edi, eax
+    mov esi, ebx
     mov esp, (stack_top - KERNEL_OFFSET)
 
     call setup_page_tables
