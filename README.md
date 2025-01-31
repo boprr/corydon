@@ -26,7 +26,7 @@
 # GNU/Linux
 ### gentoo
 ```
-emerge -a gcc make bison flex gmp mpc mpfr texinfo isl cmake wget tar git libburn
+emerge -a gcc make bison flex gmp mpc mpfr texinfo isl cmake wget tar git libburn libisoburn
 ```
 ### arch
 ```
