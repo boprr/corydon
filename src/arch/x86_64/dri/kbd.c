@@ -16,13 +16,16 @@ void kbd_irq() {
     if (scancode & 0x80) return;  // key up
     if (scancode == 14) {
         move_back();
+        update_cursor();
         return;
     }  // backspace
     if (scancode == 28) {
-        update_cursor();
         printf("\n");
+        update_cursor();
         return;
     }  // Enter
+
+    update_cursor();
     printf("%c", character_table[scancode]);
 }
 
