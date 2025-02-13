@@ -11,7 +11,7 @@ isr_stub_%+%1:
     jmp isr_common
 %endmacro
 
-extern handle_interrupt
+extern idt_interrupt_common
 isr_common:
     ;cli
     push rax
@@ -34,7 +34,7 @@ isr_common:
     push rbp
     
     mov rdi, rsp 
-    call handle_interrupt
+    call idt_interrupt_common
 
     pop rbp
     mov es, rbp

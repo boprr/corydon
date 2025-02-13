@@ -1,5 +1,7 @@
 #include "cpu/idt.h"
 
+#include "dri/kbd.h"
+
 static idt_ptr idtp;
 __attribute__((aligned(0x10))) static idt_entry idt[256];
 
@@ -27,24 +29,35 @@ void idt_init() {
             vector, isr_stub_table[vector]);
     }
 
+    idt_load();
+}
+
+void idt_load() {
+    __asm__ volatile("cli");                    // set the interrupt flag
     __asm__ volatile("lidt %0" : : "m"(idtp));  // load the new IDT
     __asm__ volatile("sti");                    // set the interrupt flag
 }
 
-void handle_interrupt(uint64_t stack_pointer) {
+void idt_interrupt_common(uint64_t stack_pointer) {
     cpu_status* status = (cpu_status*)stack_pointer;
     if (status->vector > 31) {
         pic_eoi(status->vector - 32);
     }
 
     if (status->vector <= 31) {
+        if (status->vector == 14) {
+            uint64_t faulting_address;
+            asm volatile("mov %%cr2, %0" : "=r"(faulting_address));
+            debugf("%p", faulting_address);
+        }
         if (status->vector <= 26)
-            printf("[ISR] %s \n", exceptions[status->vector]);
+            panic(EXCEPTIONS[status->vector]);
         else
-            printf("[ISR] Unknown \n");
-        panic();
+            panic("Unknown");
     }
 
-    if (status->vector == 33) kbd_irq();
-    // if (status->vector == 32) timer_irq();
+    switch (status->vector) {
+        case 33:
+            kbd_irq();
+    }
 }

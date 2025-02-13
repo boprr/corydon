@@ -2,13 +2,11 @@
 #define IDT_H
 #include <stdint.h>
 
-// #include "cpu/timer.h"
-#include "dri/kbd.h"
-#include "dri/pic.h"
 #include "gdt.h"
-#include "print/debugf.h"
-#include "print/printf.h"
 #include "utils.h"
+#include "dri/pic.h"
+
+#include "dri/kbd.h"
 
 typedef struct {
     uint16_t isr_low;
@@ -25,7 +23,7 @@ typedef struct {
     uint64_t base;
 } __attribute__((packed)) idt_ptr;
 
-static const char* exceptions[] = {
+static const char* EXCEPTIONS[] = {
     "Division Error",
     "Debug",
     "Non-maskable Interrupt",
@@ -59,6 +57,7 @@ extern void* isr_stub_table[];
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 void idt_init(void);
-void handle_interrupt(uint64_t stack_pointer);
+void idt_load(void);
+void idt_interrupt_common(uint64_t stack_pointer);
 
 #endif
