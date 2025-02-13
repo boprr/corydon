@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(corydon C ASM_NASM)
 
 set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(TOOLCHAIN_DIR "${PROJECT_SOURCE_DIR}/tools/toolchain/x86_64")
 set(CMAKE_C_COMPILER ${TOOLCHAIN_DIR}/bin/x86_64-elf-gcc)
