@@ -36,7 +36,6 @@ typedef struct {
 void outb(uint16_t port, uint8_t val);
 uint8_t inb(uint16_t port);
 void io_wait(void);
-extern uint64_t push_registers();
-void panic();
+void panic(char* message);
 
 #endif
