@@ -7,6 +7,15 @@ header_start:
     dd header_end - header_start
     dd 0x100000000 - (0xe85250d6 + 0 + (header_end - header_start))
 
+    ;framebuffer_tag_start:
+    ;dw  0x05    ;Type: framebuffer
+    ;dw  0x01    ;Optional tag
+    ;dd  framebuffer_tag_end - framebuffer_tag_start ;size
+    ;dd  0   ;Width - if 0 we let the bootloader decide
+    ;dd  0   ;Height - same as above
+    ;dd  32   ;Depth  - same as above
+    ;framebuffer_tag_end:
+
     dw 0
     dw 0
     dd 0
@@ -110,7 +119,6 @@ longmode_entry:
     add rsp, KERNEL_OFFSET
 
     call kmain
-    hlt
     
 .loop:
     hlt

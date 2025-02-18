@@ -66,6 +66,18 @@ void panic(char *message) {
     printf("rip: %p     cs: %p\n", status->rip, status->cs);
     printf("flags: %p   rsp %p\n", status->flags, status->rsp);
     printf("ss: %p\n", status->ss);
+    unsigned long cr2_value;
+    __asm__ __volatile__(
+        "mov %%cr2, %0"
+        : "=r"(cr2_value)  // Move the value of CR2 into cr2_value
+    );
+    unsigned long cr3_value;
+    __asm__ __volatile__(
+        "mov %%cr3, %0"
+        : "=r"(cr3_value)  // Move the value of CR3 into cr3_value
+    );
+    printf("cr2: %p\n", cr2_value);
+    printf("cr3: %p\n", cr3_value);
     printf("--- END OF KERNEL PANIC --- %s", message);
     while (1) {
         asm volatile("cli; hlt");
