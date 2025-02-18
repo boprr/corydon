@@ -6,15 +6,40 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/boprr/corydon)
 ![GitHub top language](https://img.shields.io/github/languages/top/boprr/corydon)
 
-## Building
+![corydon-preview](https://github.com/user-attachments/assets/4304bdec-529d-4248-a759-55771aabda62)
+
+## Roadmap
+- architecture specific 
+- [x] GDT, IDT, ISR
+- [ ] Physical memory manager 
+- [ ] Virtual memory manager
+- [ ] Ring3 (ELF, user programs)
+- [ ] RTC (clock)
+- drivers
+- [x] PS/2 Keyboard
+- [x] Serial
+- [ ] USB
+- [ ] Networking 
+- graphics
+- [ ] Framebuffer
+- filesystem
+- [ ] FAT32
+- [ ] EXT2
+- [ ] VFS
+- userspace
+- [ ] Syscall
+- [ ] Libc
+- [ ] Toolchain
+
+
+## Dependencies
 ### Requirements
 - cmake
 - wget
 - tar
 - git
 - xorriso
-###### (gcc toolchain)
-- system gcc/g++
+- system gcc/g++/nasm
 - make
 - bison
 - flex
@@ -23,16 +48,15 @@
 - mpc
 - texinfo
 
-# GNU/Linux
-### gentoo
-```
-emerge -a gcc make bison flex gmp mpc mpfr texinfo isl cmake wget tar git libburn libisoburn
-```
-### arch
-```
-pacman -S base-devel gmp libmpc mpfr wget tar git libburn
-```
+### GNU/Linux
+- **gentoo** `emerge -a gcc nasm make bison flex gmp dev-libs/mpc mpfr sys-apps/texinfo isl cmake wget app-arch/tar dev-vcs/git libburn libisoburn`
+- **arch** `pacman -S base-devel nasm gmp libmpc mpfr wget tar git libburn`
+- **debian** `apt install gcc g++ nasm make bison flex libgmp-dev libmpc-dev libmpfr-dev texinfo libisl-dev cmake wget tar git xorriso`
 
+### Windows
+[Install WSL](https://learn.microsoft.com/en-us/linux/install#windows-subsystem-for-linux-wsl), then follow the instructions for your distribution.
+
+## Building
 ```bash
 git clone https://github.com/boprr/corydon
 cd corydon
@@ -40,7 +64,12 @@ mkdir build
 cd build
 cmake ..
 make toolchain
-make iso
+```
+### ↳ Testing
+```bash
+make iso # Building an iso for external use 
+make qemu # Testing with qemu
+make gdb # Testing using qemu with gdb
 ```
 
 ## Contributing 
