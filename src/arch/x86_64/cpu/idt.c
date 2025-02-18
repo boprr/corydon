@@ -1,6 +1,8 @@
 #include "cpu/idt.h"
 
 #include "dri/kbd.h"
+#include "dri/timer.h"
+#include "print/printf.h"
 
 static idt_ptr idtp;
 __attribute__((aligned(0x10))) static idt_entry idt[256];
@@ -33,10 +35,14 @@ void idt_init() {
 }
 
 void idt_load() {
-    __asm__ volatile("cli");                    // set the interrupt flag
-    __asm__ volatile("lidt %0" : : "m"(idtp));  // load the new IDT
-    __asm__ volatile("sti");                    // set the interrupt flag
+    __asm__ volatile("cli");
+    __asm__ volatile("lidt %0" : : "m"(idtp));
+    __asm__ volatile("sti");
 }
+
+void cli() { __asm__ volatile("cli"); }
+
+void sti() { __asm__ volatile("sti"); }
 
 void idt_interrupt_common(uint64_t stack_pointer) {
     cpu_status* status = (cpu_status*)stack_pointer;
@@ -45,11 +51,6 @@ void idt_interrupt_common(uint64_t stack_pointer) {
     }
 
     if (status->vector <= 31) {
-        if (status->vector == 14) {
-            uint64_t faulting_address;
-            asm volatile("mov %%cr2, %0" : "=r"(faulting_address));
-            debugf("%p", faulting_address);
-        }
         if (status->vector <= 26)
             panic(EXCEPTIONS[status->vector]);
         else
@@ -59,5 +60,7 @@ void idt_interrupt_common(uint64_t stack_pointer) {
     switch (status->vector) {
         case 33:
             kbd_irq();
+        case 32:
+            timer_irq();
     }
 }

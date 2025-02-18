@@ -12,8 +12,7 @@ isr_stub_%+%1:
 %endmacro
 
 extern idt_interrupt_common
-isr_common:
-    ;cli
+isr_common: 
     push rax
     push rbx
     push rcx

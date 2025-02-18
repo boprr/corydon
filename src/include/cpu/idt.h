@@ -59,5 +59,8 @@ void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags);
 void idt_init(void);
 void idt_load(void);
 void idt_interrupt_common(uint64_t stack_pointer);
+void cli();
+void sti();
+
 
 #endif
