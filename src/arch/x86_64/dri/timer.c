@@ -3,9 +3,8 @@
 #include <stdint.h>
 
 #include "cpu/idt.h"
-#include "print/printf.h"
 
-uint64_t timer;
+uint64_t timer = 0;
 
 void timer_init() {
     uint32_t divisor = PIT_FREQ / TIMER_HZ;
