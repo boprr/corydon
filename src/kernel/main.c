@@ -7,7 +7,10 @@
 #include "dri/timer.h"
 #include "print/printf.h"
 
+extern void sse_enable();
+
 void kmain(uint64_t in_multiboot_magic, void *in_multiboot_data) {
+    sse_enable();
     gdt_init();
     pic_remap();
     idt_init();
@@ -21,7 +24,4 @@ void kmain(uint64_t in_multiboot_magic, void *in_multiboot_data) {
     printf("|                                   | \n");
     printf("|  arch: x86_64          ver: 0.01  | \n");
     printf("+-----------------------------------+ \n");
-
-    printf("%u", timer);
-    // printf("%i", timer);
 }

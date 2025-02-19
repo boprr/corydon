@@ -14,7 +14,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
 endif()
 
-set(C_COMMON "-mcmodel=kernel -pipe -Wall -Wextra -O2 -fno-pic -ffreestanding -nostartfiles -nostdlib -lgcc")
+set(C_COMMON "-mcmodel=kernel -pipe -Wall -Wextra -O2 -fno-pic -mno-red-zone -ffreestanding -nostartfiles -nostdlib -lgcc")
 
 set(NASM_FLAGS "-felf64")
 set(CMAKE_C_FLAGS   ${C_COMMON})

@@ -20,3 +20,8 @@ void timer_irq() {
     cli();
     timer++;
 }
+
+void sleep(uint64_t ms) {
+    uint64_t target = timer + ms;
+    while (timer < target) __asm__ volatile("nop");
+}
