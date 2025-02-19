@@ -38,6 +38,8 @@ const uint8_t whiteonblack = 15 | 0 << 4;
 volatile struct Char* buffer = (struct Char*)(0xb8000 + 0xffffffff80000000);
 
 void clear_screen() {
+    colcounter = 0;
+    rowcounter = 0;
     for (int i = 0; i < (int)NUM_COLS; i++) {
         for (int j = 0; j < (int)NUM_ROWS; j++) {
             buffer[i + (NUM_COLS * j)] = (struct Char){

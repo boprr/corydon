@@ -1,8 +1,7 @@
-#include "dri/timer.h"
-
 #include <stdint.h>
 
 #include "cpu/idt.h"
+#include "dri/time.h"
 
 uint64_t timer = 0;
 
@@ -19,6 +18,7 @@ void timer_init() {
 void timer_irq() {
     cli();
     timer++;
+    if (timer % 1000 == 0) rtc_read_from_cmos();
 }
 
 void sleep(uint64_t ms) {

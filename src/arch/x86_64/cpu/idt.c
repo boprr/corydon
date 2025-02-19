@@ -1,7 +1,7 @@
 #include "cpu/idt.h"
 
 #include "dri/kbd.h"
-#include "dri/timer.h"
+#include "dri/time.h"
 #include "print/printf.h"
 
 static idt_ptr idtp;

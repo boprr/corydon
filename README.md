@@ -14,7 +14,7 @@
 - [ ] Physical memory manager 
 - [ ] Virtual memory manager
 - [ ] Ring3 (ELF, user programs)
-- [ ] RTC (clock)
+- [x] RTC (clock)
 - drivers
 - [x] PS/2 Keyboard
 - [x] Serial
