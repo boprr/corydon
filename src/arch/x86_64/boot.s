@@ -118,7 +118,8 @@ longmode_entry:
 
     add rsp, KERNEL_OFFSET
 
-    call kmain
+    mov rax, kmain
+    call rax
     
 .loop:
     hlt
