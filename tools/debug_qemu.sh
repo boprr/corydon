@@ -1,1 +1,1 @@
-qemu-system-x86_64 -m 2G -serial stdio -d guest_errors -cdrom make_iso/corydon.iso
+qemu-system-x86_64 -m 2G -serial stdio -d int -no-shutdown -no-reboot -cdrom make_iso/corydon.iso
