@@ -57,7 +57,7 @@ start:
 
     call setup_page_tables
     call enable_paging
-    
+
     lgdt [(gdt64.pointer - KERNEL_OFFSET)]
     jmp gdt64.code:(longmode_entry - KERNEL_OFFSET)
 
