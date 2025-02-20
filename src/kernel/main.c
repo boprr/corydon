@@ -4,7 +4,7 @@
 #include "cpu/idt.h"
 #include "dri/pic.h"
 #include "dri/serial.h"
-#include "dri/timer.h"
+#include "dri/time.h"
 #include "print/printf.h"
 
 extern void sse_enable();
