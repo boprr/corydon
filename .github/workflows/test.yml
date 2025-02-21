@@ -22,13 +22,6 @@ jobs:
           path: tools/toolchain/x86_64/
           key: ${{ runner.os }}-gcc-toolchain
 
-      # fix this
-      - name: Cache restored
-        uses: peter-evans/repository-dispatch@v3
-        with:
-            token: ${{ secrets.PAT }}
-            event-type: trigger-build 
-
       - name: Install CMake
         run: apt update && apt install cmake
 
