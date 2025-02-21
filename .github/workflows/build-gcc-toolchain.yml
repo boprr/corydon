@@ -16,7 +16,7 @@ jobs:
         run: sudo apt update && sudo apt install -y gcc g++ nasm make bison flex libgmp-dev libmpc-dev libmpfr-dev texinfo libisl-dev cmake wget tar git xorriso
 
       - name: Compile toolchain
-        run: cd tools/ && sh build_toolchain.sh
+        run: cd tools/ && sh build_toolchain.sh ${{ github.workspace }}/tools/toolchain/
 
       - name: Upload toolchain cache
         uses: actions/cache/save@v4
