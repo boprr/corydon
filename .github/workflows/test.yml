@@ -26,6 +26,7 @@ jobs:
       - name: Cache restored
         uses: peter-evans/repository-dispatch@v3
         with:
+            token: ${{ secrets.PAT }}
             event-type: trigger-build 
 
       - name: Install CMake
