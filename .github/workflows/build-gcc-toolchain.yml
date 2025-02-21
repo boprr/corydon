@@ -13,7 +13,7 @@ jobs:
           sparse-checkout: tools
 
       - name: Install depends
-        run: apt update && apt install gcc g++ nasm make bison flex libgmp-dev libmpc-dev libmpfr-dev texinfo libisl-dev cmake wget tar git xorriso
+        run: sudo apt update && sudo apt install -y gcc g++ nasm make bison flex libgmp-dev libmpc-dev libmpfr-dev texinfo libisl-dev cmake wget tar git xorriso
 
       - name: Compile toolchain
         run: cd tools/ && sh build_toolchain.sh
