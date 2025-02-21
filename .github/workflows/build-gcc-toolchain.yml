@@ -1,0 +1,27 @@
+name: Cache GCC toolchain
+
+on:
+  repository_dispatch:
+    types: [trigger-build]
+
+jobs:
+  cache-gcc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/Checkout@v4
+        with:
+          sparse-checkout: tools
+
+      - name: Install depends
+        run: apt update && apt install gcc g++ nasm make bison flex libgmp-dev libmpc-dev libmpfr-dev texinfo libisl-dev cmake wget tar git xorriso
+
+      - name: Compile toolchain
+        run: cd tools/ && sh build_toolchain.sh
+
+      - name: Upload toolchain cache
+        uses: actions/cache/save@v4
+        with:
+          path: tools/toolchain/x86_64/
+          key: ${{ runner.os }}-gcc-toolchain
+
