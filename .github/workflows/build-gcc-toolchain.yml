@@ -1,6 +1,9 @@
 name: Cache GCC toolchain
 
 on:
+  push:
+    paths:
+      - "tools/build_toolchain.sh"
   workflow_dispatch:
   
 jobs:
