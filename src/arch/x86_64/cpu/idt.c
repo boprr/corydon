@@ -1,11 +1,36 @@
 #include "cpu/idt.h"
 
-#include "dri/kbd.h"
-#include "dri/time.h"
-#include "print/printf.h"
-
 static idt_ptr idtp;
 __attribute__((aligned(0x10))) static idt_entry idt[256];
+const char* EXCEPTIONS[] = {
+    "Division Error",
+    "Debug",
+    "Non-maskable Interrupt",
+    "Breakpoint",
+    "Overflow",
+    "Bound Range Exceeded",
+    "Invalid Opcode",
+    "Device Not Available",
+    "Double Fault",
+    "Coprocessor Segment Overrun",
+    "Invalid TSS",
+    "Segment Not Present",
+    "Stack-Segment Fault",
+    "General Protection Fault",
+    "Page Fault",
+    "Reserved",
+    "x87 Floating-Point Exception",
+    "Alignment Check",
+    "Machine Check",
+    "SIMD Floating-Point Exception",
+    "Virtualization Exception",
+    "Control Protection Exception",
+    "Reserved",
+    "Hypervisor Injection Exception",
+    "VMM Communication Exception",
+    "Security Exception",
+    "Reserved",
+};
 
 void idt_set_descriptor(uint8_t vector, void* isr, uint8_t flags) {
     idt_entry* descriptor = &idt[vector];
