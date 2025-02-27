@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(corydon C ASM_NASM)
 
 set(CMAKE_SYSTEM_NAME Generic)
@@ -20,8 +20,8 @@ set(NASM_FLAGS "-felf64")
 set(CMAKE_C_FLAGS   ${C_COMMON})
 set(CMAKE_CXX_FLAGS ${C_COMMON})
 
-set(CMAKE_C_FLAGS_DEBUG "-g ${C_COMMON}")
-set(CMAKE_CXX_FLAGS_DEBUG "-g ${C_COMMON}")
+set(CMAKE_C_FLAGS_DEBUG "-g ${C_COMMON} -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG ${C_COMMON} -O0")
 set(CMAKE_ASM_NASM_FLAGS_DEBUG "-g -felf64")
 
 file(GLOB_RECURSE SOURCE_C CONFIGURE_DEPENDS "src/*.h" "src/*.c")
