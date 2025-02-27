@@ -38,4 +38,7 @@ uint8_t inb(uint16_t port);
 void io_wait(void);
 void panic(char* message);
 
+
+int math_divroundup(int a, int b);
+
 #endif

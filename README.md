@@ -11,7 +11,7 @@
 ## Roadmap
 - architecture specific 
 - [x] GDT, IDT, ISR
-- [ ] Physical memory manager 
+- [x] Physical memory manager 
 - [ ] Virtual memory manager
 - [ ] Ring3 (ELF, user programs)
 - [x] RTC (clock)
