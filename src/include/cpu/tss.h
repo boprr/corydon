@@ -49,5 +49,4 @@ typedef struct {
     uint16_t trap;
     uint16_t iomap_base;
 } tss_entry;
-
 #endif

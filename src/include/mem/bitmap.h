@@ -1,8 +1,8 @@
 #ifndef BITMAP_H
 #define BITMAP_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "utils.h"
 
@@ -24,7 +24,9 @@ typedef struct {
 
 int bitmap_get(mem_bitmap *map, size_t block);
 
-void bitmap_mark_blocks(mem_bitmap *map, size_t start, size_t size_block, int value);
+void bitmap_mark_blocks(
+    mem_bitmap *map, size_t start, size_t size_block, int value
+);
 void bitmap_mark(mem_bitmap *map, size_t block, int value);
 
 void bitmap_mark_region(mem_bitmap *map, void *base, size_t size, int value);

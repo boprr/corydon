@@ -30,6 +30,7 @@ void panic(char *message) {
     void *stack_pointer = get_stack_pointer();
     cpu_status *status = (cpu_status *)stack_pointer;
 
+    /*
     debugf("--- KERNEL PANIC ---\n");
     debugf("ds: %p\n", status->ds);
     debugf("r15: %p\n", status->r15);
@@ -78,6 +79,8 @@ void panic(char *message) {
     );
     printf("cr2: %p\n", cr2_value);
     printf("cr3: %p\n", cr3_value);
+    printf("--- END OF KERNEL PANIC --- %s", message);
+    */
     printf("--- END OF KERNEL PANIC --- %s", message);
     while (1) {
         asm volatile("cli; hlt");

@@ -3,13 +3,11 @@
 #include <stdint.h>
 
 #include "cpu/gdt.h"
-#include "utils.h"
-#include "dri/pic.h"
-
 #include "dri/kbd.h"
+#include "dri/pic.h"
 #include "dri/time.h"
-
 #include "print/printf.h"
+#include "utils.h"
 
 typedef struct {
     uint16_t isr_low;

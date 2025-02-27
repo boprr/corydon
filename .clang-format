@@ -1,4 +1,11 @@
 BasedOnStyle: Google
 IndentWidth: 4
+UseTab: Never
 ColumnLimit: 80
+BreakBeforeBraces: Attach
 PointerAlignment: Right
+SeparateDefinitionBlocks: Always
+PenaltyBreakString: 1000
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: BlockIndent

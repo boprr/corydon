@@ -2,6 +2,7 @@
 #define TIMER_H
 
 #include <stdint.h>
+
 #include "utils.h"
 
 #define PIT_FREQ 1193182
@@ -13,10 +14,10 @@ typedef struct {
     uint8_t hour;
     uint8_t day;
     uint8_t month;
-    uint64_t  year;
+    uint64_t year;
 } rtc_state;
 
-extern uint64_t timer; // ms since first irq init
+extern uint64_t timer;  // ms since first irq init
 extern rtc_state rtc;
 
 void timer_init();

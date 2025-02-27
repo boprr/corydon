@@ -53,7 +53,9 @@ void idt_init() {
         debugf(
             "[\033[34;49mIDT\033[39;49m] loaded \033[34;49m%i\033[39;49m at "
             "\033[34;49m0x%p\033[39;49m \n",
-            vector, isr_stub_table[vector]);
+            vector,
+            isr_stub_table[vector]
+        );
     }
 
     idt_load();

@@ -29,10 +29,12 @@ enum {
 
 size_t colcounter = 0;
 size_t rowcounter = 0;
+
 struct Char {
     uint8_t character;
     uint8_t color;
 };
+
 const uint8_t whiteonblack = 15 | 0 << 4;
 
 volatile struct Char* buffer = (struct Char*)(0xb8000 + 0xffffffff80000000);
