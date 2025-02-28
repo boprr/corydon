@@ -65,7 +65,7 @@ size_t bitmap_find_free_region(mem_bitmap *map, size_t blocks) {
 void *bitmap_alloc(mem_bitmap *map, size_t blocks) {
     size_t region = bitmap_find_free_region(map, blocks);
     if (region == BLOCK_NOAVIL) {
-        panic("MEMORY IS FULL");
+        panic("Memory is full");
     }
     bitmap_mark_blocks(map, region, blocks, 1);
     return bitmap_block_to_ptr(map, region);
