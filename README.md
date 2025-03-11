@@ -22,6 +22,7 @@
 - [ ] Networking 
 - graphics
 - [ ] Framebuffer
+- [ ] PC Screen Font
 - filesystem
 - [ ] FAT32
 - [ ] EXT2
